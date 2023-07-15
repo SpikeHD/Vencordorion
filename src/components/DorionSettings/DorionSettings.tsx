@@ -68,6 +68,11 @@ function DorionSettingsTab() {
       const plugins = await getPlugins();
       const settings = await invoke('read_config_file');
 
+      themes.push({
+        label: "None",
+        value: "none",
+      });
+
       setThemeList(themes);
       setPluginList(plugins);
       setState(JSON.parse(settings));
