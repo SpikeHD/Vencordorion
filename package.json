@@ -29,7 +29,7 @@
         "testTsc": "tsc --noEmit",
         "uninject": "node scripts/runInstaller.mjs",
         "watch": "node scripts/build/build.mjs --watch",
-        "dorion": "buildWeb && mv dist/browser.js C:/Users/%USERNAME%/dorion/plugins/PRELOAD_Vencord.js"
+        "dorion": "yarn buildWeb && mv dist/browser.js C:/Users/%USERNAME%/dorion/plugins/PRELOAD_Vencord.js && mv dist/browser.css C:/Users/%USERNAME%/dorion/themes/browser.css"
     },
     "dependencies": {
         "@vap/core": "0.0.12",

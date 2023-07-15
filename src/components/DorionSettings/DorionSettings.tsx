@@ -16,14 +16,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { Flex } from "@components/Flex";
 import { Margins } from "@utils/margins";
 import { classes } from "@utils/misc";
-import { downloadSettingsBackup, uploadSettingsBackup } from "@utils/settingsSync";
-import { Button, Card, Select, Slider, Text, useEffect, useState } from "@webpack/common";
-import { Alerts, Button, Forms, Switch, Tooltip } from "@webpack/common";
+import { Button, Card, Forms, Select, Slider, Switch, Text, useEffect, useState, React } from "@webpack/common";
 
 import { SettingsTab, wrapTab } from "../VencordSettings/shared";
+
+import "./DorionSettings.css";
 
 interface Settings {
   zoom: number,
@@ -40,6 +39,14 @@ interface Theme {
   value: string,
 }
 
+interface Plugin {
+  name: string,
+  preload: boolean,
+  enabled: boolean,
+}
+
+const cl = (className: string) => classes("dorion-" + className);
+
 function DorionSettingsTab() {
   const [state, setState] = useState<Settings>({
     zoom: 100,
@@ -51,6 +58,13 @@ function DorionSettingsTab() {
     theme: null,
   });
   const [themeList, setThemeList] = useState<Theme[]>([]);
+  const [pluginList, setPluginList] = useState<Plugin[]>([
+    {
+      name: "Plugin 1",
+      preload: false,
+      enabled: false,
+    }
+  ]);
 
   useEffect(() => {
     (async () => {
@@ -64,7 +78,16 @@ function DorionSettingsTab() {
     return [];
   };
 
-  const handleThemeChange = (value: string) => {
+  const getPlugins = async () => {
+    // TODO
+    return [];
+  };
+
+  const openPluginsFolder = () => {
+    // TODO
+  };
+
+  const openThemesFolder = () => {
     // TODO
   };
 
@@ -76,8 +99,39 @@ function DorionSettingsTab() {
           placeholder={"Select a theme..."}
           maxVisibleItems={5}
           closeOnSelect={true}
-          select={handleThemeChange}
+          select={(v) => setState(prev => {
+            prev.theme = v;
+            return prev;
+          })}
           isSelected={v => v === state.theme}
+          serialize={v => String(v)}
+        />
+      </Forms.FormSection>
+
+      <Forms.FormSection title="Client Type" className={Margins.top16}>
+        <Select
+          options={[
+            {
+              label: "Default",
+              value: "default",
+            },
+            {
+              label: "Canary",
+              value: "canary",
+            },
+            {
+              label: "PTB",
+              value: "ptb",
+            }
+          ]}
+          placeholder={"Select a client type..."}
+          maxVisibleItems={5}
+          closeOnSelect={true}
+          select={(v) => setState(prev => {
+            prev.client_type = v;
+            return prev;
+          })}
+          isSelected={v => (!state.client_type && v === 'default') || v === state.client_type}
           serialize={v => String(v)}
         />
       </Forms.FormSection>
@@ -96,6 +150,92 @@ function DorionSettingsTab() {
           onMarkerRender={v => v + "%"}
           stickToMarkers={true}
         />
+      </Forms.FormSection>
+
+      <Forms.FormSection title="Misc." className={Margins.top16}>
+        <Switch
+          value={state.sys_tray}
+          onChange={v => setState(prev => {
+            prev.sys_tray = v;
+            return prev;
+          })}
+        >
+          Minimize to System Tray
+        </Switch>
+
+        <Switch
+          value={state.block_telemetry}
+          onChange={v => setState(prev => {
+            prev.sys_tray = v;
+            return prev;
+          })}
+        >
+          Block Discord Telemetry
+        </Switch>
+      </Forms.FormSection>
+
+      <Forms.FormSection title="Folders" className={Margins.top16}>
+        <Card className={cl("folders")}>
+          <div>
+            <Text variant="text-md/normal" className={Margins.left8}>
+              Plugins Folder
+            </Text>
+
+            <div className={cl('folder-icon')}>
+              <img src="https://via.placeholder.com/16x16" alt="Folder Icon" onClick={openThemesFolder} />
+            </div>
+          </div>
+
+          <div>
+            <Text variant="text-md/normal" className={Margins.left8}>
+              Themes Folder
+            </Text>
+
+            <div className={cl('folder-icon')}>
+              <img src="https://via.placeholder.com/16x16" alt="Folder Icon" onClick={openThemesFolder} />
+            </div>
+          </div>
+        </Card>
+      </Forms.FormSection>
+
+      <Forms.FormSection title="Plugins" className={Margins.top16}>
+        <Card className={cl("plugins")}>
+          {
+            pluginList.map(plugin => (
+              <div key={plugin.name} className={cl('plugin-row')}>
+                <div className={'main-cell'}>
+                  <Text variant="text-md/normal" className={Margins.left8}>
+                    {plugin.name}
+                  </Text>
+                </div>
+
+                <div className={'switch-cell'}>
+                  <Switch
+                    value={plugin.enabled}
+                    onChange={v => {
+                      // TODO
+                    }}
+                    style={{
+                      flexDirection: 'column-reverse',
+                    }}
+                  />
+                </div>
+
+                <div className={'switch-cell'}>
+                  <Switch
+                    value={plugin.preload}
+                    onChange={v => {
+                      // TODO
+                    }}
+                    style={{
+                      flexDirection: 'column-reverse',
+                    }}
+                  />
+                </div>
+              </div>
+            ))
+          }
+        </Card>
       </Forms.FormSection>
     </SettingsTab>
   );
