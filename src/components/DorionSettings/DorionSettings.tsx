@@ -27,267 +27,270 @@ import "./DorionSettings.css";
 const { invoke, process } = window.__TAURI__;
 
 interface Settings {
-  zoom: number | string,
-  client_type: string,
-  sys_tray: boolean,
-  block_telemetry: boolean,
-  push_to_talk: boolean,
-  push_to_talk_keys: string[],
-  theme: string,
+    zoom: number | string,
+    client_type: string,
+    sys_tray: boolean,
+    block_telemetry: boolean,
+    push_to_talk: boolean,
+    push_to_talk_keys: string[],
+    theme: string,
 }
 
 interface Theme {
-  label: string,
-  value: string,
+    label: string,
+    value: string,
 }
 
 interface Plugin {
-  name: string,
-  preload: boolean,
-  disabled: boolean,
+    name: string,
+    preload: boolean,
+    disabled: boolean,
 }
 
 const cl = (className: string) => classes("dorion-" + className);
 
 function DorionSettingsTab() {
-  const [state, setState] = useState<Settings>({
-    zoom: '100',
-    client_type: "stable",
-    sys_tray: false,
-    block_telemetry: false,
-    push_to_talk: false,
-    push_to_talk_keys: [],
-    theme: "none",
-  });
-  const [themeList, setThemeList] = useState<Theme[]>([]);
-  const [pluginList, setPluginList] = useState<Plugin[]>([]);
-
-  useEffect(() => {
-    (async () => {
-      const themes = await getThemes();
-      const plugins = await getPlugins();
-      const settings = await invoke('read_config_file');
-
-      themes.push({
-        label: "None",
-        value: "none",
-      });
-
-      setThemeList(themes);
-      setPluginList(plugins);
-      setState(JSON.parse(settings));
-    })();
-  }, []);
-
-  console.log(state);
-
-  const getThemes = async () => {
-    const themes = await invoke('get_theme_names');
-    return themes.map((t: string) => (
-      {
-        label: t.replace(/"/g, '').replace('.css', '').replace('.theme', ''),
-        value: t.replace(/"/g, ''),
-      }
-    ));
-  };
-
-  const getPlugins = async () => {
-    const plugins = await invoke('get_plugin_list');
-
-    return plugins;
-  };
-
-  const openPluginsFolder = () => {
-    invoke('open_plugins');
-  };
-
-  const openThemesFolder = () => {
-    invoke('open_themes');
-  };
-
-  const saveSettings = async () => {
-    await invoke('write_config_file', {
-      contents: JSON.stringify(state),
+    const [state, setState] = useState<Settings>({
+        zoom: '100',
+        client_type: "stable",
+        sys_tray: false,
+        block_telemetry: false,
+        push_to_talk: false,
+        push_to_talk_keys: [],
+        theme: "none",
     });
+    const [themeList, setThemeList] = useState<Theme[]>([]);
+    const [pluginList, setPluginList] = useState<Plugin[]>([]);
 
-    process.relaunch();
-  };
+    useEffect(() => {
+        (async () => {
+            const themes = await getThemes();
+            const plugins = await getPlugins();
+            const settings = await invoke('read_config_file');
 
-  return (
-    <SettingsTab title="Dorion Settings">
-      <Forms.FormSection title="Theme" className={Margins.top16}>
-        <Select
-          options={themeList}
-          placeholder={"Select a theme..."}
-          maxVisibleItems={5}
-          closeOnSelect={true}
-          select={(v) => setState({
-            ...state,
-            theme: v,
-          })}
-          isSelected={v => v === state.theme}
-          serialize={v => String(v)}
-        />
-      </Forms.FormSection>
+            themes.push({
+                label: "None",
+                value: "none",
+            });
 
-      <Forms.FormSection title="Client Type" className={Margins.top16}>
-        <Select
-          options={[
+            setThemeList(themes);
+            setPluginList(plugins);
+            setState(JSON.parse(settings));
+        })();
+    }, []);
+
+    console.log(state);
+
+    const getThemes = async () => {
+        const themes = await invoke('get_theme_names');
+        return themes.map((t: string) => (
             {
-              label: "Default",
-              value: "default",
-            },
-            {
-              label: "Canary",
-              value: "canary",
-            },
-            {
-              label: "PTB",
-              value: "ptb",
+                label: t.replace(/"/g, '').replace('.css', '').replace('.theme', ''),
+                value: t.replace(/"/g, ''),
             }
-          ]}
-          placeholder={"Select a client type..."}
-          maxVisibleItems={5}
-          closeOnSelect={true}
-          select={(v) => setState({
-            ...state,
-            client_type: v,
-          })}
-          isSelected={v => (!state.client_type && v === 'default') || v === state.client_type}
-          serialize={v => String(v)}
-        />
-      </Forms.FormSection>
+        ));
+    };
 
-      <Forms.FormSection title="Zoom Level" className={Margins.top16}>
-        <Slider
-          markers={[50, 75, 100, 125]}
-          minValue={0}
-          maxValue={125}
-          initialValue={typeof state.zoom === 'string' ? parseInt(state.zoom) : state.zoom}
-          onValueChange={v => setState({
-            ...state,
-            zoom: '' + (v / 100),
-          })}
-          onValueRender={v => v + "%"}
-          onMarkerRender={v => v + "%"}
-          stickToMarkers={true}
-        />
-      </Forms.FormSection>
+    const getPlugins = async () => {
+        const plugins = await invoke('get_plugin_list');
 
-      <Forms.FormSection title="Misc." className={Margins.top16}>
-        <Switch
-          value={state.sys_tray}
-          onChange={v => setState({
-            ...state,
-            sys_tray: v,
-          })}
-        >
-          Minimize to System Tray
-        </Switch>
+        return plugins;
+    };
 
-        <Switch
-          value={state.block_telemetry}
-          onChange={v => setState({
-            ...state,
-            block_telemetry: v,
-          })}
-        >
-          Block Discord Telemetry
-        </Switch>
-      </Forms.FormSection>
+    const openPluginsFolder = () => {
+        invoke('open_plugins');
+    };
 
-      <Forms.FormSection title="Folders" className={Margins.top16}>
-        <Card className={cl('folders')}>
-          <div>
-            <Text variant="text-md/normal" className={Margins.left16}>
-              Plugins Folder
-            </Text>
+    const openThemesFolder = () => {
+        invoke('open_themes');
+    };
 
-            <div className={cl('folder-icon')}>
-              <img src="https://media.discordapp.net/attachments/716778723990306937/1129617859413295135/folder.png" alt="Folder Icon" onClick={openThemesFolder} />
-            </div>
-          </div>
+    const saveSettings = async () => {
+        await invoke('write_config_file', {
+            contents: JSON.stringify(state),
+        });
 
-          <div>
-            <Text variant="text-md/normal" className={Margins.left16}>
-              Themes Folder
-            </Text>
+        process.relaunch();
+    };
 
-            <div className={cl('folder-icon')}>
-              <img src="https://media.discordapp.net/attachments/716778723990306937/1129617859413295135/folder.png" alt="Folder Icon" onClick={openThemesFolder} />
-            </div>
-          </div>
-        </Card>
-      </Forms.FormSection>
+    return (
+        <SettingsTab title="Dorion Settings">
+            <Forms.FormSection title="Theme" className={Margins.top16}>
+                <Select
+                    options={themeList}
+                    placeholder={"Select a theme..."}
+                    maxVisibleItems={5}
+                    closeOnSelect={true}
+                    select={(v) => setState({
+                        ...state,
+                        theme: v,
+                    })}
+                    isSelected={v => v === state.theme}
+                    serialize={v => String(v)}
+                />
+            </Forms.FormSection>
 
-      <Forms.FormSection title="Plugins" className={Margins.top16}>
-        <Card className={cl('plugins')}>
-          <div className={cl('plugin-header ') + cl('plugin-row' + ' ' + Margins.top16)}>
-            <div className={'main-cell'}>
-              <Text variant="text-md/bold" className={Margins.left16}>
-                Plugin Name
-              </Text>
-            </div>
+            <Forms.FormSection title="Client Type" className={Margins.top16}>
+                <Select
+                    options={[
+                        {
+                            label: "Default",
+                            value: "default",
+                        },
+                        {
+                            label: "Canary",
+                            value: "canary",
+                        },
+                        {
+                            label: "PTB",
+                            value: "ptb",
+                        }
+                    ]}
+                    placeholder={"Select a client type..."}
+                    maxVisibleItems={5}
+                    closeOnSelect={true}
+                    select={(v) => setState({
+                        ...state,
+                        client_type: v,
+                    })}
+                    isSelected={v => (!state.client_type && v === 'default') || v === state.client_type}
+                    serialize={v => String(v)}
+                />
+            </Forms.FormSection>
 
-            <div className={'switch-cell'}>
-              <Text variant="text-md/bold" className={Margins.left16}>
-                Enabled?
-              </Text>
-            </div>
+            <Forms.FormSection title="Zoom Level" className={Margins.top16}>
+                <Slider
+                    markers={
+                        // Create an array with number from 50-125 with a step of 5
+                        Array.from(Array(16).keys()).map(i => i * 5 + 50)
+                    }
+                    minValue={0}
+                    maxValue={125}
+                    initialValue={typeof state.zoom === 'string' ? parseInt(state.zoom) : state.zoom}
+                    onValueChange={v => setState({
+                        ...state,
+                        zoom: '' + (v / 100),
+                    })}
+                    onValueRender={v => v + "%"}
+                    onMarkerRender={v => v + "%"}
+                    stickToMarkers={true}
+                />
+            </Forms.FormSection>
 
-            <div className={'switch-cell'}>
-              <Text variant="text-md/bold" className={Margins.left16}>
-                Preload?
-              </Text>
-            </div>
-          </div>
+            <Forms.FormSection title="Misc." className={Margins.top16}>
+                <Switch
+                    value={state.sys_tray}
+                    onChange={v => setState({
+                        ...state,
+                        sys_tray: v,
+                    })}
+                >
+                    Minimize to System Tray
+                </Switch>
 
-          {
-            pluginList.map(plugin => (
-              <div key={plugin.name} className={cl('plugin-row')}>
-                <div className={'main-cell'}>
-                  <Text variant="text-md/normal" className={Margins.left16}>
-                    {plugin.name}
-                  </Text>
-                </div>
+                <Switch
+                    value={state.block_telemetry}
+                    onChange={v => setState({
+                        ...state,
+                        block_telemetry: v,
+                    })}
+                >
+                    Block Discord Telemetry
+                </Switch>
+            </Forms.FormSection>
 
-                <div className={'switch-cell'}>
-                  <Switch
-                    value={!plugin.disabled}
-                    onChange={v => {
-                      // TODO
-                    }}
-                    style={{
-                      flexDirection: 'column-reverse',
-                    }}
-                  />
-                </div>
+            <Forms.FormSection title="Folders" className={Margins.top16}>
+                <Card className={cl('folders')}>
+                    <div>
+                        <Text variant="text-md/normal" className={Margins.left16}>
+                            Plugins Folder
+                        </Text>
 
-                <div className={'switch-cell'}>
-                  <Switch
-                    value={plugin.preload}
-                    onChange={v => {
-                      // TODO
-                    }}
-                    style={{
-                      flexDirection: 'column-reverse',
-                    }}
-                  />
-                </div>
-              </div>
-            ))
-          }
-        </Card>
-      </Forms.FormSection>
+                        <div className={cl('folder-icon')}>
+                            <img src="https://media.discordapp.net/attachments/716778723990306937/1129617859413295135/folder.png" alt="Folder Icon" onClick={openThemesFolder} />
+                        </div>
+                    </div>
 
-      <Button
-        onClick={saveSettings}
-        className={cl("save-button") + ' ' + Margins.top16}
-      >
-        Save and Restart
-      </Button>
-    </SettingsTab >
-  );
+                    <div>
+                        <Text variant="text-md/normal" className={Margins.left16}>
+                            Themes Folder
+                        </Text>
+
+                        <div className={cl('folder-icon')}>
+                            <img src="https://media.discordapp.net/attachments/716778723990306937/1129617859413295135/folder.png" alt="Folder Icon" onClick={openThemesFolder} />
+                        </div>
+                    </div>
+                </Card>
+            </Forms.FormSection>
+
+            <Forms.FormSection title="Plugins" className={Margins.top16}>
+                <Card className={cl('plugins')}>
+                    <div className={cl('plugin-header ') + cl('plugin-row' + ' ' + Margins.top16)}>
+                        <div className={'main-cell'}>
+                            <Text variant="text-md/bold" className={Margins.left16}>
+                                Plugin Name
+                            </Text>
+                        </div>
+
+                        <div className={'switch-cell'}>
+                            <Text variant="text-md/bold" className={Margins.left16}>
+                                Enabled?
+                            </Text>
+                        </div>
+
+                        <div className={'switch-cell'}>
+                            <Text variant="text-md/bold" className={Margins.left16}>
+                                Preload?
+                            </Text>
+                        </div>
+                    </div>
+
+                    {
+                        pluginList.map(plugin => (
+                            <div key={plugin.name} className={cl('plugin-row')}>
+                                <div className={'main-cell'}>
+                                    <Text variant="text-md/normal" className={Margins.left16}>
+                                        {plugin.name}
+                                    </Text>
+                                </div>
+
+                                <div className={'switch-cell'}>
+                                    <Switch
+                                        value={!plugin.disabled}
+                                        onChange={v => {
+                                            // TODO
+                                        }}
+                                        style={{
+                                            flexDirection: 'column-reverse',
+                                        }}
+                                    />
+                                </div>
+
+                                <div className={'switch-cell'}>
+                                    <Switch
+                                        value={plugin.preload}
+                                        onChange={v => {
+                                            // TODO
+                                        }}
+                                        style={{
+                                            flexDirection: 'column-reverse',
+                                        }}
+                                    />
+                                </div>
+                            </div>
+                        ))
+                    }
+                </Card>
+            </Forms.FormSection>
+
+            <Button
+                onClick={saveSettings}
+                className={cl("save-button") + ' ' + Margins.top16}
+            >
+                Save and Restart
+            </Button>
+        </SettingsTab >
+    );
 }
 
 export default wrapTab(DorionSettingsTab, "Dorion Settings");
