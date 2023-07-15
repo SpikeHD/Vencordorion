@@ -27,6 +27,13 @@
   cursor: pointer;
 }
 
+.dorion-folder-icon img {
+  width: 100%;
+  height: 100%;
+
+  filter: invert(1);
+}
+
 .dorion-plugins {
   display: flex;
   flex-direction: column;

@@ -204,7 +204,7 @@ function DorionSettingsTab() {
             </Text>
 
             <div className={cl('folder-icon')}>
-              <img src="https://via.placeholder.com/16x16" alt="Folder Icon" onClick={openThemesFolder} />
+              <img src="https://media.discordapp.net/attachments/716778723990306937/1129617859413295135/folder.png" alt="Folder Icon" onClick={openThemesFolder} />
             </div>
           </div>
 
@@ -214,7 +214,7 @@ function DorionSettingsTab() {
             </Text>
 
             <div className={cl('folder-icon')}>
-              <img src="https://via.placeholder.com/16x16" alt="Folder Icon" onClick={openThemesFolder} />
+              <img src="https://media.discordapp.net/attachments/716778723990306937/1129617859413295135/folder.png" alt="Folder Icon" onClick={openThemesFolder} />
             </div>
           </div>
         </Card>
