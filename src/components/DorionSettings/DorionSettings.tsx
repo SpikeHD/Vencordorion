@@ -187,7 +187,7 @@ function DorionSettingsTab() {
       </Forms.FormSection>
 
       <Forms.FormSection title="Folders" className={Margins.top16}>
-        <Card className={cl("folders")}>
+        <Card className={cl('folders')}>
           <div>
             <Text variant="text-md/normal" className={Margins.left16}>
               Plugins Folder
@@ -211,7 +211,27 @@ function DorionSettingsTab() {
       </Forms.FormSection>
 
       <Forms.FormSection title="Plugins" className={Margins.top16}>
-        <Card className={cl("plugins")}>
+        <Card className={cl('plugins')}>
+          <div className={cl('plugin-header ') + cl('plugin-row' + ' ' + Margins.top16)}>
+            <div className={'main-cell'}>
+              <Text variant="text-md/bold" className={Margins.left16}>
+                Plugin Name
+              </Text>
+            </div>
+
+            <div className={'switch-cell'}>
+              <Text variant="text-md/bold" className={Margins.left16}>
+                Enabled?
+              </Text>
+            </div>
+
+            <div className={'switch-cell'}>
+              <Text variant="text-md/bold" className={Margins.left16}>
+                Preload?
+              </Text>
+            </div>
+          </div>
+
           {
             pluginList.map(plugin => (
               <div key={plugin.name} className={cl('plugin-row')}>
