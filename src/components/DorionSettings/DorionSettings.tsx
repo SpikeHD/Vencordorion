@@ -66,10 +66,15 @@ function DorionSettingsTab() {
     (async () => {
       const themes = await getThemes();
       const plugins = await getPlugins();
+      const settings = await invoke('read_config_file');
+
       setThemeList(themes);
       setPluginList(plugins);
+      setState(JSON.parse(settings));
     })();
   }, []);
+
+  console.log(state);
 
   const getThemes = async () => {
     const themes = await invoke('get_theme_names');
@@ -111,9 +116,9 @@ function DorionSettingsTab() {
           placeholder={"Select a theme..."}
           maxVisibleItems={5}
           closeOnSelect={true}
-          select={(v) => setState(prev => {
-            prev.theme = v;
-            return prev;
+          select={(v) => setState({
+            ...state,
+            theme: v,
           })}
           isSelected={v => v === state.theme}
           serialize={v => String(v)}
@@ -139,9 +144,9 @@ function DorionSettingsTab() {
           placeholder={"Select a client type..."}
           maxVisibleItems={5}
           closeOnSelect={true}
-          select={(v) => setState(prev => {
-            prev.client_type = v;
-            return prev;
+          select={(v) => setState({
+            ...state,
+            client_type: v,
           })}
           isSelected={v => (!state.client_type && v === 'default') || v === state.client_type}
           serialize={v => String(v)}
@@ -154,9 +159,9 @@ function DorionSettingsTab() {
           minValue={0}
           maxValue={125}
           initialValue={state.zoom}
-          onValueChange={v => setState(prev => {
-            prev.zoom = v;
-            return prev;
+          onValueChange={v => setState({
+            ...state,
+            zoom: v,
           })}
           onValueRender={v => v + "%"}
           onMarkerRender={v => v + "%"}
@@ -167,9 +172,9 @@ function DorionSettingsTab() {
       <Forms.FormSection title="Misc." className={Margins.top16}>
         <Switch
           value={state.sys_tray}
-          onChange={v => setState(prev => {
-            prev.sys_tray = v;
-            return prev;
+          onChange={v => setState({
+            ...state,
+            sys_tray: v,
           })}
         >
           Minimize to System Tray
@@ -177,9 +182,9 @@ function DorionSettingsTab() {
 
         <Switch
           value={state.block_telemetry}
-          onChange={v => setState(prev => {
-            prev.sys_tray = v;
-            return prev;
+          onChange={v => setState({
+            ...state,
+            block_telemetry: v,
           })}
         >
           Block Discord Telemetry
