@@ -24,6 +24,8 @@ import { SettingsTab, wrapTab } from "../VencordSettings/shared";
 
 import "./DorionSettings.css";
 
+const { invoke, process } = window.__TAURI__;
+
 interface Settings {
   zoom: number,
   client_type: string,
@@ -31,7 +33,7 @@ interface Settings {
   block_telemetry: boolean,
   push_to_talk: boolean,
   push_to_talk_keys: string[],
-  theme: string | null,
+  theme: string,
 }
 
 interface Theme {
@@ -42,7 +44,7 @@ interface Theme {
 interface Plugin {
   name: string,
   preload: boolean,
-  enabled: boolean,
+  disabled: boolean,
 }
 
 const cl = (className: string) => classes("dorion-" + className);
@@ -55,40 +57,50 @@ function DorionSettingsTab() {
     block_telemetry: false,
     push_to_talk: false,
     push_to_talk_keys: [],
-    theme: null,
+    theme: "none",
   });
   const [themeList, setThemeList] = useState<Theme[]>([]);
-  const [pluginList, setPluginList] = useState<Plugin[]>([
-    {
-      name: "Plugin 1",
-      preload: false,
-      enabled: false,
-    }
-  ]);
+  const [pluginList, setPluginList] = useState<Plugin[]>([]);
 
   useEffect(() => {
     (async () => {
       const themes = await getThemes();
+      const plugins = await getPlugins();
       setThemeList(themes);
+      setPluginList(plugins);
     })();
   }, []);
 
   const getThemes = async () => {
-    // TODO
-    return [];
+    const themes = await invoke('get_theme_names');
+    return themes.map((t: string) => (
+      {
+        label: t.replace(/"/g, '').replace('.css', '').replace('.theme', ''),
+        value: t.replace(/"/g, ''),
+      }
+    ));
   };
 
   const getPlugins = async () => {
-    // TODO
-    return [];
+    const plugins = await invoke('get_plugin_list');
+
+    return plugins;
   };
 
   const openPluginsFolder = () => {
-    // TODO
+    invoke('open_plugins');
   };
 
   const openThemesFolder = () => {
-    // TODO
+    invoke('open_themes');
+  };
+
+  const saveSettings = async () => {
+    await invoke('write_config_file', {
+      contents: JSON.stringify(state),
+    });
+
+    process.relaunch();
   };
 
   return (
@@ -177,7 +189,7 @@ function DorionSettingsTab() {
       <Forms.FormSection title="Folders" className={Margins.top16}>
         <Card className={cl("folders")}>
           <div>
-            <Text variant="text-md/normal" className={Margins.left8}>
+            <Text variant="text-md/normal" className={Margins.left16}>
               Plugins Folder
             </Text>
 
@@ -187,7 +199,7 @@ function DorionSettingsTab() {
           </div>
 
           <div>
-            <Text variant="text-md/normal" className={Margins.left8}>
+            <Text variant="text-md/normal" className={Margins.left16}>
               Themes Folder
             </Text>
 
@@ -204,14 +216,14 @@ function DorionSettingsTab() {
             pluginList.map(plugin => (
               <div key={plugin.name} className={cl('plugin-row')}>
                 <div className={'main-cell'}>
-                  <Text variant="text-md/normal" className={Margins.left8}>
+                  <Text variant="text-md/normal" className={Margins.left16}>
                     {plugin.name}
                   </Text>
                 </div>
 
                 <div className={'switch-cell'}>
                   <Switch
-                    value={plugin.enabled}
+                    value={!plugin.disabled}
                     onChange={v => {
                       // TODO
                     }}
@@ -237,7 +249,14 @@ function DorionSettingsTab() {
           }
         </Card>
       </Forms.FormSection>
-    </SettingsTab>
+
+      <Button
+        onClick={saveSettings}
+        className={cl("save-button") + ' ' + Margins.top16}
+      >
+        Save and Restart
+      </Button>
+    </SettingsTab >
   );
 }
 
