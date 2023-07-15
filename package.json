@@ -28,7 +28,8 @@
         "testWeb": "pnpm lint && pnpm buildWeb && pnpm testTsc",
         "testTsc": "tsc --noEmit",
         "uninject": "node scripts/runInstaller.mjs",
-        "watch": "node scripts/build/build.mjs --watch"
+        "watch": "node scripts/build/build.mjs --watch",
+        "dorion": "buildWeb && mv dist/browser.js C:/Users/%USERNAME%/dorion/plugins/PRELOAD_Vencord.js"
     },
     "dependencies": {
         "@vap/core": "0.0.12",

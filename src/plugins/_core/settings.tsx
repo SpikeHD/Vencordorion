@@ -88,6 +88,18 @@ export default definePlugin({
         return [
             {
                 section: ID.HEADER,
+                label: "Dorion"
+            },
+            {
+                section: "DorionSettings",
+                label: "Dorion Settings",
+                element: require("@components/DorionSettings/DorionSettings").default
+            },
+            {
+                section: ID.DIVIDER,
+            },
+            {
+                section: ID.HEADER,
                 label: "Vencord"
             },
             {
