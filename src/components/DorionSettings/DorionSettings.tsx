@@ -27,7 +27,7 @@ import "./DorionSettings.css";
 const { invoke, process } = window.__TAURI__;
 
 interface Settings {
-  zoom: number,
+  zoom: number | string,
   client_type: string,
   sys_tray: boolean,
   block_telemetry: boolean,
@@ -51,7 +51,7 @@ const cl = (className: string) => classes("dorion-" + className);
 
 function DorionSettingsTab() {
   const [state, setState] = useState<Settings>({
-    zoom: 100,
+    zoom: '100',
     client_type: "stable",
     sys_tray: false,
     block_telemetry: false,
@@ -163,10 +163,10 @@ function DorionSettingsTab() {
           markers={[50, 75, 100, 125]}
           minValue={0}
           maxValue={125}
-          initialValue={state.zoom}
+          initialValue={typeof state.zoom === 'string' ? parseInt(state.zoom) : state.zoom}
           onValueChange={v => setState({
             ...state,
-            zoom: v,
+            zoom: '' + (v / 100),
           })}
           onValueRender={v => v + "%"}
           onMarkerRender={v => v + "%"}
