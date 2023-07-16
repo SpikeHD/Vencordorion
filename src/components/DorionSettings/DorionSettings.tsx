@@ -258,7 +258,17 @@ function DorionSettingsTab() {
                                     <Switch
                                         value={!plugin.disabled}
                                         onChange={v => {
-                                            // TODO
+                                            invoke('toggle_plugin', {
+                                                name: plugin.name
+                                            });
+
+                                            setPluginList(pluginList.map(p => {
+                                                if (p.name === plugin.name) {
+                                                    p.disabled = !p.disabled;
+                                                }
+
+                                                return p;
+                                            }));
                                         }}
                                         style={{
                                             flexDirection: 'column-reverse',
@@ -270,7 +280,17 @@ function DorionSettingsTab() {
                                     <Switch
                                         value={plugin.preload}
                                         onChange={v => {
-                                            // TODO
+                                            invoke('toggle_preload', {
+                                                name: plugin.name
+                                            });
+
+                                            setPluginList(pluginList.map(p => {
+                                                if (p.name === plugin.name) {
+                                                    p.preload = !p.preload;
+                                                }
+
+                                                return p;
+                                            }));
                                         }}
                                         style={{
                                             flexDirection: 'column-reverse',
