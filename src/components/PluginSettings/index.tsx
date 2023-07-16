@@ -199,7 +199,7 @@ export default function PluginSettings() {
             ),
             confirmText: "Restart now",
             cancelText: "Later!",
-            onConfirm: () => location.reload()
+            onConfirm: () => window.__TAURI__.process.relaunch()
         }));
     }, []);
 
