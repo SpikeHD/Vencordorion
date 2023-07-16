@@ -164,9 +164,9 @@ function DorionSettingsTab() {
                         // Create an array with number from 50-125 with a step of 5
                         Array.from(Array(16).keys()).map(i => i * 5 + 50)
                     }
-                    minValue={0}
+                    minValue={50}
                     maxValue={125}
-                    initialValue={typeof state.zoom === 'string' ? parseInt(state.zoom) : state.zoom}
+                    initialValue={(typeof state.zoom === 'string' ? parseInt(state.zoom) : state.zoom) * 100}
                     onValueChange={v => setState({
                         ...state,
                         zoom: '' + (v / 100),
