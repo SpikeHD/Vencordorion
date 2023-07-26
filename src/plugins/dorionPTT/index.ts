@@ -9,10 +9,16 @@ export default definePlugin({
     patches: [
         {
             find: "INPUT_MODE_VAD},{",
-            replacement: {
-                match: /name:.{1,2}\?.{1,2}\..{1,2}.Messages.INPUT_MODE_PTT_LIMITED:([^\}]+)/g,
-                replace: "name:$1"
-            }
+            replacement: [
+                {
+                    match: /,(.{1,2})=!.{1,2}\..{1,2},(.{1,2})=\(/g,
+                    replace: ",$1=false,$2=(",
+                },
+                {
+                    match: /(.{1,2})=.{1,2}\..{1,3}\|\|(.{1,2}!==.{1,2}\..{1,3}\.PUSH_TO_TALK)/g,
+                    replace: "$1=true"
+                }
+            ]
         }
     ]
 });
