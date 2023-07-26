@@ -20,6 +20,10 @@ export default definePlugin({
                 {
                     match: /(.{1,2})=.{1,2}\..{1,3}\|\|(.{1,2}!==.{1,2}\..{1,3}\.PUSH_TO_TALK)/g,
                     replace: "$1=true"
+                },
+                {
+                    match: /;(.{1,2}===.{1,2}\..{1,3}\.PUSH_TO_TALK&&.{1,2})/g,
+                    replace: ";window.__TAURI__.invoke('toggle_ptt', {state:e.value==='PUSH_TO_TALK'});$1"
                 }
             ]
         },

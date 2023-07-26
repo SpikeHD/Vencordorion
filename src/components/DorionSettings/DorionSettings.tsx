@@ -79,8 +79,6 @@ function DorionSettingsTab() {
         })();
     }, []);
 
-    console.log(state);
-
     const getThemes = async () => {
         const themes = await invoke('get_theme_names');
         return themes.map((t: string) => (
