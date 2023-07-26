@@ -337,7 +337,7 @@ export const Devs = /* #__PURE__*/ Object.freeze({
     },
     SpikeHD: {
         name: "SpikeHD",
-        id: 1026515880080842772n
+        id: 221757857836564485n
     }
 } satisfies Record<string, Dev>);
 
