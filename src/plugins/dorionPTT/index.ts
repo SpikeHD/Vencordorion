@@ -1,6 +1,8 @@
 import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
 
+import { UserStore, FluxDispatcher } from "@webpack/common";
+
 export default definePlugin({
     name: "Dorion PTT",
     description: "Enable global push-to-talk for Dorion",
@@ -112,5 +114,21 @@ export default definePlugin({
         window.__TAURI__.invoke("save_ptt_keys", {
             keys: keyStrs
         });
+    },
+
+    start: () => {
+        // Create a tauri-based keybind listener
+        window.__TAURI__.event.listen('ptt_toggle', toggleSelfMute);
     }
 });
+
+function toggleSelfMute(event: any) {
+    console.log(event.payload);
+
+    FluxDispatcher.dispatch({
+        type: 'SPEAKING',
+        context: 'default',
+        userId: UserStore.getCurrentUser().id,
+        speakingFlags: event.payload.state ? 1 : 0
+    });
+}
