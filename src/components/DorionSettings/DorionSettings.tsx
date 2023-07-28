@@ -113,6 +113,12 @@ function DorionSettingsTab() {
         process.relaunch();
     };
 
+    const clearCSSCache = async () => {
+        await invoke('clear_css_cache');
+
+        alert('CSS cache cleared!');
+    };
+
     return (
         <SettingsTab title="Dorion Settings">
             <Forms.FormSection title="Theme" className={Margins.top16}>
@@ -128,7 +134,9 @@ function DorionSettingsTab() {
                     isSelected={v => v === state.theme}
                     serialize={v => String(v)}
                 />
+            </Forms.FormSection>
 
+            <Forms.FormSection title="Cache CSS" className={Margins.top16}>
                 <Switch
                     value={state.cache_css}
                     onChange={v => setState({
@@ -313,12 +321,21 @@ function DorionSettingsTab() {
                 </Card>
             </Forms.FormSection>
 
-            <Button
-                onClick={saveSettings}
-                className={cl("save-button") + ' ' + Margins.top16}
-            >
-                Save and Restart
-            </Button>
+            <div className={cl('buttons')}>
+                <Button
+                    onClick={saveSettings}
+                    className={cl("save-button") + ' ' + Margins.top16}
+                >
+                    Save and Restart
+                </Button>
+
+                <Button
+                    onClick={clearCSSCache}
+                    className={cl("clear-cache-button") + ' ' + Margins.top16}
+                >
+                    Clear CSS Cache
+                </Button>
+            </div>
         </SettingsTab >
     );
 }
