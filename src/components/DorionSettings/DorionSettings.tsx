@@ -34,6 +34,7 @@ interface Settings {
     push_to_talk: boolean,
     push_to_talk_keys: string[],
     theme: string,
+    cache_css: boolean,
 }
 
 interface Theme {
@@ -58,6 +59,7 @@ function DorionSettingsTab() {
         push_to_talk: false,
         push_to_talk_keys: [],
         theme: "none",
+        cache_css: false,
     });
     const [themeList, setThemeList] = useState<Theme[]>([]);
     const [pluginList, setPluginList] = useState<Plugin[]>([]);
@@ -126,6 +128,16 @@ function DorionSettingsTab() {
                     isSelected={v => v === state.theme}
                     serialize={v => String(v)}
                 />
+
+                <Switch
+                    value={state.cache_css}
+                    onChange={v => setState({
+                        ...state,
+                        cache_css: v,
+                    })}
+                >
+                    Cache CSS
+                </Switch>
             </Forms.FormSection>
 
             <Forms.FormSection title="Client Type" className={Margins.top16}>
