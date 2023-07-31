@@ -112,21 +112,21 @@ export default definePlugin({
                 label: "Plugins",
                 element: require("@components/VencordSettings/PluginsTab").default,
             },
-            {
-                section: "VencordThemes",
-                label: "Themes",
-                element: require("@components/VencordSettings/ThemesTab").default,
-            },
+            // {
+            //     section: "VencordThemes",
+            //     label: "Themes",
+            //     element: require("@components/VencordSettings/ThemesTab").default,
+            // },
             !IS_WEB && {
                 section: "VencordUpdater",
                 label: "Updater",
                 element: require("@components/VencordSettings/UpdaterTab").default,
             },
-            {
-                section: "VencordCloud",
-                label: "Cloud",
-                element: require("@components/VencordSettings/CloudTab").default,
-            },
+            // {
+            //     section: "VencordCloud",
+            //     label: "Cloud",
+            //     element: require("@components/VencordSettings/CloudTab").default,
+            // },
             {
                 section: "VencordSettingsSync",
                 label: "Backup & Restore",
