@@ -127,11 +127,11 @@ export default definePlugin({
             //     label: "Cloud",
             //     element: require("@components/VencordSettings/CloudTab").default,
             // },
-            {
-                section: "VencordSettingsSync",
-                label: "Backup & Restore",
-                element: require("@components/VencordSettings/BackupAndRestoreTab").default,
-            },
+            // {
+            //     section: "VencordSettingsSync",
+            //     label: "Backup & Restore",
+            //     element: require("@components/VencordSettings/BackupAndRestoreTab").default,
+            // },
             IS_DEV && {
                 section: "VencordPatchHelper",
                 label: "Patch Helper",
