@@ -66,11 +66,11 @@ function VencordPopout(onClose: () => void) {
                 label="Open Notification Log"
                 action={openNotificationLogModal}
             />
-            <Menu.MenuItem
+            {/* <Menu.MenuItem
                 id="vc-toolbox-quickcss"
                 label="Open QuickCSS"
                 action={() => VencordNative.quickCss.openEditor()}
-            />
+            /> */}
             {...pluginEntries}
         </Menu.Menu>
     );

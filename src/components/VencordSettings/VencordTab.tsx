@@ -56,11 +56,11 @@ function VencordSettings() {
         note: string;
     }> =
         [
-            {
-                key: "useQuickCss",
-                title: "Enable Custom CSS",
-                note: "Loads your Custom CSS"
-            },
+            // {
+            //     key: "useQuickCss",
+            //     title: "Enable Custom CSS",
+            //     note: "Loads your Custom CSS"
+            // },
             !IS_WEB && {
                 key: "enableReactDevtools",
                 title: "Enable React Developer Tools",
@@ -110,12 +110,12 @@ function VencordSettings() {
                                 Restart Client
                             </Button>
                         )}
-                        <Button
+                        {/* <Button
                             onClick={() => VencordNative.quickCss.openEditor()}
                             size={Button.Sizes.SMALL}
                             disabled={settingsDir === "Loading..."}>
                             Open QuickCSS File
-                        </Button>
+                        </Button> */}
                         {!IS_WEB && (
                             <Button
                                 onClick={() => showItemInFolder(settingsDir)}

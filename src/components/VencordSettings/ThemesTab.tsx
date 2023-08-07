@@ -117,11 +117,11 @@ function ThemesTab() {
                         <li>• Paste the contents of the edited theme file into the QuickCSS editor</li>
                     </ul>
                     <Forms.FormDivider className={Margins.top8 + " " + Margins.bottom16} />
-                    <Button
+                    {/* <Button
                         onClick={() => VencordNative.quickCss.openEditor()}
                         size={Button.Sizes.SMALL}>
                         Open QuickCSS File
-                    </Button>
+                    </Button> */}
                 </Forms.FormText>
             </Card>
             <Forms.FormTitle tag="h5">Themes</Forms.FormTitle>
