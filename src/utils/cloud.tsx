@@ -25,10 +25,12 @@ import { UserStore } from "@webpack/common";
 import { Logger } from "./Logger";
 import { openModal } from "./modal";
 
-export const cloudLogger = new Logger("Cloud", "#39b7e0");
-export const getCloudUrl = () => new URL(Settings.cloud.url);
+const PROXY_URL = "http://127.0.0.1:8678/url?url=";
 
-const cloudUrlOrigin = () => getCloudUrl().origin;
+export const cloudLogger = new Logger("Cloud", "#39b7e0");
+export const getCloudUrl = () => new URL(PROXY_URL + Settings.cloud.url);
+
+const cloudUrlOrigin = () => Settings.cloud.url;
 const getUserId = () => {
     const id = UserStore.getCurrentUser()?.id;
     if (!id) throw new Error("User not yet logged in");
@@ -80,7 +82,9 @@ export async function authorizeCloud() {
     }
 
     try {
-        const oauthConfiguration = await fetch(new URL("/v1/oauth/settings", getCloudUrl()));
+        const oauthConfiguration = await fetch(
+            (getCloudUrl() + (Settings.cloud.url.endsWith('/') ? '' : '/') + "v1/oauth/settings")
+        );
         var { clientId, redirectUri } = await oauthConfiguration.json();
     } catch {
         showNotification({
@@ -108,7 +112,7 @@ export async function authorizeCloud() {
             }
 
             try {
-                const res = await fetch(location, {
+                const res = await fetch(PROXY_URL + location, {
                     headers: new Headers({ Accept: "application/json" })
                 });
                 const { secret } = await res.json();
