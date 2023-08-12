@@ -35,6 +35,8 @@ interface Settings {
     push_to_talk_keys: string[],
     theme: string,
     cache_css: boolean,
+    use_native_titlebar: boolean,
+    start_maximized: boolean,
 }
 
 interface Theme {
@@ -60,6 +62,8 @@ function DorionSettingsTab() {
         push_to_talk_keys: [],
         theme: "none",
         cache_css: false,
+        use_native_titlebar: false,
+        start_maximized: false,
     });
     const [themeList, setThemeList] = useState<Theme[]>([]);
     const [pluginList, setPluginList] = useState<Plugin[]>([]);
@@ -214,6 +218,26 @@ function DorionSettingsTab() {
                     })}
                 >
                     Block Discord Telemetry
+                </Switch>
+
+                <Switch
+                    value={state.use_native_titlebar}
+                    onChange={v => setState({
+                        ...state,
+                        use_native_titlebar: v,
+                    })}
+                >
+                    Use Native Titlebar
+                </Switch>
+
+                <Switch
+                    value={state.start_maximized}
+                    onChange={v => setState({
+                        ...state,
+                        start_maximized: v,
+                    })}
+                >
+                    Start Maximized
                 </Switch>
             </Forms.FormSection>
 
