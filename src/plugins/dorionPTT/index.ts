@@ -135,4 +135,11 @@ function toggleSelfMute(event: any) {
         userId: UserStore.getCurrentUser().id,
         speakingFlags: event.payload.state ? 1 : 0
     });
+
+    FluxDispatcher.dispatch({
+        type: 'AUDIO_SET_TEMPORARY_SELF_MUTE',
+        context: 'default',
+        userId: UserStore.getCurrentUser().id,
+        mute: event.payload.state ? 0 : 1
+    });
 }
