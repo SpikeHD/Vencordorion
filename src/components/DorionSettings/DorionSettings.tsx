@@ -24,7 +24,7 @@ import { SettingsTab, wrapTab } from "../VencordSettings/shared";
 
 import "./DorionSettings.css";
 
-const { invoke, process } = window.__TAURI__;
+const { invoke, process, dialog } = window.__TAURI__;
 
 interface Settings {
     zoom: number | string,
@@ -121,6 +121,15 @@ function DorionSettingsTab() {
         await invoke('clear_css_cache');
 
         alert('CSS cache cleared!');
+    };
+
+    const clearWebCache = async () => {
+        const doClear = await dialog.confirm(
+            'Are you sure you want to clear the web cache? This will log you out and close Dorion.',
+            'Clear Web Cache',
+        );
+
+        if (doClear) await invoke('set_clear_cache');
     };
 
     return (
@@ -351,6 +360,13 @@ function DorionSettingsTab() {
                     className={cl("save-button") + ' ' + Margins.top16}
                 >
                     Save and Restart
+                </Button>
+
+                <Button
+                    onClick={clearWebCache}
+                    className={cl("clear-cache-button") + ' ' + Margins.top16}
+                >
+                    Clear Web/UserData Cache
                 </Button>
 
                 <Button
