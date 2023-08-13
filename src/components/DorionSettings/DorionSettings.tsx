@@ -54,7 +54,7 @@ const cl = (className: string) => classes("dorion-" + className);
 
 function DorionSettingsTab() {
     const [state, setState] = useState<Settings>({
-        zoom: '100',
+        zoom: '1.0',
         client_type: "stable",
         sys_tray: false,
         block_telemetry: false,
@@ -188,7 +188,7 @@ function DorionSettingsTab() {
                     }
                     minValue={50}
                     maxValue={125}
-                    initialValue={(typeof state.zoom === 'string' ? parseInt(state.zoom) : state.zoom) * 100}
+                    initialValue={(typeof state.zoom === 'string' ? parseFloat(state.zoom) : state.zoom) * 100}
                     onValueChange={v => setState({
                         ...state,
                         zoom: '' + (v / 100),
