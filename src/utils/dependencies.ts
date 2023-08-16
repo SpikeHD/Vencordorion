@@ -79,7 +79,7 @@ const shikiWorkerDist = "https://unpkg.com/@vap/shiki-worker@0.0.8/dist";
 export const shikiWorkerSrc = `${shikiWorkerDist}/${IS_DEV ? "index.js" : "index.min.js"}`;
 export const shikiOnigasmSrc = "https://unpkg.com/@vap/shiki@0.10.3/dist/onig.wasm";
 
-export const rnnoiseDist = "https://unpkg.com/@sapphi-red/web-noise-suppressor@0.3.3/dist";
+export const rnnoiseDist = "127.0.0.1:8768/url?url=https://unpkg.com/@sapphi-red/web-noise-suppressor@0.3.3/dist";
 export const rnnoiseWasmSrc = (simd = false) => `${rnnoiseDist}/rnnoise${simd ? "_simd" : ""}.wasm`;
 export const rnnoiseWorkletSrc = `${rnnoiseDist}/rnnoise/workletProcessor.js`;
 
