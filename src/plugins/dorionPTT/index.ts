@@ -1,7 +1,12 @@
+/*
+ * Vencord, a Discord client mod
+ * Copyright (c) 2023 Vendicated and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
-
-import { UserStore, FluxDispatcher } from "@webpack/common";
+import { FluxDispatcher,UserStore } from "@webpack/common";
 
 export default definePlugin({
     name: "Dorion PTT",
@@ -41,72 +46,72 @@ export default definePlugin({
     savePttKeys: (keys: number[][]) => {
         const keyCodes = keys.map(k => k[1]);
         const keyToStr = (key: number) => {
-            let keyStr = '';
+            let keyStr = "";
 
             // Convert special keys to strings
             // see: https://docs.rs/device_query/latest/device_query/keymap/enum.Keycode.html
             switch (key) {
                 case 8:
-                    keyStr = 'Backspace';
+                    keyStr = "Backspace";
                     break;
                 case 9:
-                    keyStr = 'Tab';
+                    keyStr = "Tab";
                     break;
                 case 13:
-                    keyStr = 'Enter';
+                    keyStr = "Enter";
                     break;
                 case 16:
-                    keyStr = 'Shift';
+                    keyStr = "Shift";
                     break;
                 case 17:
-                    keyStr = 'Control';
+                    keyStr = "Control";
                     break;
                 case 18:
-                    keyStr = 'Alt';
+                    keyStr = "Alt";
                     break;
                 case 20:
-                    keyStr = 'CapsLock';
+                    keyStr = "CapsLock";
                     break;
                 case 27:
-                    keyStr = 'Escape';
+                    keyStr = "Escape";
                     break;
                 case 32:
-                    keyStr = 'Space';
+                    keyStr = "Space";
                     break;
                 case 33:
-                    keyStr = 'PageUp';
+                    keyStr = "PageUp";
                     break;
                 case 34:
-                    keyStr = 'PageDown';
+                    keyStr = "PageDown";
                     break;
                 case 35:
-                    keyStr = 'End';
+                    keyStr = "End";
                     break;
                 case 36:
-                    keyStr = 'Home';
+                    keyStr = "Home";
                     break;
                 case 37:
-                    keyStr = 'Left';
+                    keyStr = "Left";
                     break;
                 case 38:
-                    keyStr = 'Up';
+                    keyStr = "Up";
                     break;
                 case 39:
-                    keyStr = 'Right';
+                    keyStr = "Right";
                     break;
                 case 40:
-                    keyStr = 'Down';
+                    keyStr = "Down";
                     break;
                 case 45:
-                    keyStr = 'Insert';
+                    keyStr = "Insert";
                     break;
                 case 46:
-                    keyStr = 'Delete';
+                    keyStr = "Delete";
                     break;
                 default:
                     keyStr = String.fromCharCode(key);
                     break;
-            };
+            }
 
             return keyStr;
         };
@@ -122,7 +127,7 @@ export default definePlugin({
 
     start: () => {
         // Create a tauri-based keybind listener
-        window.__TAURI__.event.listen('ptt_toggle', toggleSelfMute);
+        window.__TAURI__.event.listen("ptt_toggle", toggleSelfMute);
     }
 });
 
@@ -130,15 +135,15 @@ function toggleSelfMute(event: any) {
     console.log(event.payload);
 
     FluxDispatcher.dispatch({
-        type: 'SPEAKING',
-        context: 'default',
+        type: "SPEAKING",
+        context: "default",
         userId: UserStore.getCurrentUser().id,
         speakingFlags: event.payload.state ? 1 : 0
     });
 
     FluxDispatcher.dispatch({
-        type: 'AUDIO_SET_TEMPORARY_SELF_MUTE',
-        context: 'default',
+        type: "AUDIO_SET_TEMPORARY_SELF_MUTE",
+        context: "default",
         userId: UserStore.getCurrentUser().id,
         mute: event.payload.state ? 0 : 1
     });

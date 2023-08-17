@@ -1,7 +1,11 @@
+/*
+ * Vencord, a Discord client mod
+ * Copyright (c) 2023 Vendicated and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
-
-import { UserStore, FluxDispatcher } from "@webpack/common";
 
 export default definePlugin({
     name: "Dorion MacOS Voice Support",
@@ -15,7 +19,7 @@ export default definePlugin({
             replacement: [
                 {
                     match: /getMediaEngine=function\(\)\{return (.{1,2})\}/,
-                    replace: 'getMediaEngine=function(){console.log($1);return $1}'
+                    replace: "getMediaEngine=function(){console.log($1);return $1}"
                 }
             ]
         },

@@ -83,7 +83,7 @@ export async function authorizeCloud() {
 
     try {
         const oauthConfiguration = await fetch(
-            (getCloudUrl() + (Settings.cloud.url.endsWith('/') ? '' : '/') + "v1/oauth/settings")
+            (getCloudUrl() + (Settings.cloud.url.endsWith("/") ? "" : "/") + "v1/oauth/settings")
         );
         var { clientId, redirectUri } = await oauthConfiguration.json();
     } catch {
