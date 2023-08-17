@@ -1,76 +1,70 @@
 .dorion-folders {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .dorion-plugin-header {
-  border-bottom: 1px solid var(--background-tertiary);
-  padding-bottom: 16px;
+    border-bottom: 1px solid var(--background-tertiary);
+    padding-bottom: 16px;
 }
 
 .dorion-folders>div {
-  margin: 8px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+    margin: 8px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .dorion-folder-icon {
-  display: flex;
-  align-items: center;
-
-  width: 32px;
-  height: 32px;
-  cursor: pointer;
+    display: flex;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
 }
 
 .dorion-folder-icon img {
-  width: 80%;
-  height: 80%;
-
-  filter: invert(1);
+    width: 80%;
+    height: 80%;
+    filter: invert(1);
 }
 
 .dorion-plugins {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .dorion-plugin-row {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-
-  width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
 }
 
 .dorion-plugin-row .switch-cell {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30%;
 }
 
 .dorion-plugin-row .main-cell {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-
-  width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 50%;
 }
 
 .dorion-buttons {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-
-  width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
 }

@@ -16,13 +16,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+import "./DorionSettings.css";
+
+import { SettingsTab, wrapTab } from "@components/VencordSettings/shared";
 import { Margins } from "@utils/margins";
 import { classes } from "@utils/misc";
-import { Button, Card, Forms, Select, Slider, Switch, Text, useEffect, useState, React } from "@webpack/common";
-
-import { SettingsTab, wrapTab } from "../VencordSettings/shared";
-
-import "./DorionSettings.css";
+import { Button, Card, Forms, React, Select, Slider, Switch, Text, useEffect, useState } from "@webpack/common";
 
 const { invoke, process, dialog } = window.__TAURI__;
 
@@ -54,7 +53,7 @@ const cl = (className: string) => classes("dorion-" + className);
 
 function DorionSettingsTab() {
     const [state, setState] = useState<Settings>({
-        zoom: '1.0',
+        zoom: "1.0",
         client_type: "stable",
         sys_tray: false,
         block_telemetry: false,
@@ -72,7 +71,7 @@ function DorionSettingsTab() {
         (async () => {
             const themes = await getThemes();
             const plugins = await getPlugins();
-            const settings = await invoke('read_config_file');
+            const settings = await invoke("read_config_file");
 
             themes.push({
                 label: "None",
@@ -86,31 +85,31 @@ function DorionSettingsTab() {
     }, []);
 
     const getThemes = async () => {
-        const themes = await invoke('get_theme_names');
+        const themes = await invoke("get_theme_names");
         return themes.map((t: string) => (
             {
-                label: t.replace(/"/g, '').replace('.css', '').replace('.theme', ''),
-                value: t.replace(/"/g, ''),
+                label: t.replace(/"/g, "").replace(".css", "").replace(".theme", ""),
+                value: t.replace(/"/g, ""),
             }
         ));
     };
 
     const getPlugins = async () => {
-        const plugins = await invoke('get_plugin_list');
+        const plugins = await invoke("get_plugin_list");
 
         return plugins;
     };
 
     const openPluginsFolder = () => {
-        invoke('open_plugins');
+        invoke("open_plugins");
     };
 
     const openThemesFolder = () => {
-        invoke('open_themes');
+        invoke("open_themes");
     };
 
     const saveSettings = async () => {
-        await invoke('write_config_file', {
+        await invoke("write_config_file", {
             contents: JSON.stringify(state),
         });
 
@@ -118,18 +117,18 @@ function DorionSettingsTab() {
     };
 
     const clearCSSCache = async () => {
-        await invoke('clear_css_cache');
+        await invoke("clear_css_cache");
 
-        alert('CSS cache cleared!');
+        alert("CSS cache cleared!");
     };
 
     const clearWebCache = async () => {
         const doClear = await dialog.confirm(
-            'Are you sure you want to clear the web cache? This will log you out and close Dorion.',
-            'Clear Web Cache',
+            "Are you sure you want to clear the web cache? This will log you out and close Dorion.",
+            "Clear Web Cache",
         );
 
-        if (doClear) await invoke('set_clear_cache');
+        if (doClear) await invoke("set_clear_cache");
     };
 
     return (
@@ -140,7 +139,7 @@ function DorionSettingsTab() {
                     placeholder={"Select a theme..."}
                     maxVisibleItems={5}
                     closeOnSelect={true}
-                    select={(v) => setState({
+                    select={v => setState({
                         ...state,
                         theme: v,
                     })}
@@ -180,11 +179,11 @@ function DorionSettingsTab() {
                     placeholder={"Select a client type..."}
                     maxVisibleItems={5}
                     closeOnSelect={true}
-                    select={(v) => setState({
+                    select={v => setState({
                         ...state,
                         client_type: v,
                     })}
-                    isSelected={v => (!state.client_type && v === 'default') || v === state.client_type}
+                    isSelected={v => (!state.client_type && v === "default") || v === state.client_type}
                     serialize={v => String(v)}
                 />
             </Forms.FormSection>
@@ -197,10 +196,10 @@ function DorionSettingsTab() {
                     }
                     minValue={50}
                     maxValue={125}
-                    initialValue={(typeof state.zoom === 'string' ? parseFloat(state.zoom) : state.zoom) * 100}
+                    initialValue={(typeof state.zoom === "string" ? parseFloat(state.zoom) : state.zoom) * 100}
                     onValueChange={v => setState({
                         ...state,
-                        zoom: '' + (v / 100),
+                        zoom: "" + (v / 100),
                     })}
                     onValueRender={v => v + "%"}
                     onMarkerRender={v => v + "%"}
@@ -251,13 +250,13 @@ function DorionSettingsTab() {
             </Forms.FormSection>
 
             <Forms.FormSection title="Folders" className={Margins.top16}>
-                <Card className={cl('folders')}>
+                <Card className={cl("folders")}>
                     <div>
                         <Text variant="text-md/normal" className={Margins.left16}>
                             Plugins Folder
                         </Text>
 
-                        <div className={cl('folder-icon')}>
+                        <div className={cl("folder-icon")}>
                             <img src="https://media.discordapp.net/attachments/716778723990306937/1129617859413295135/folder.png" alt="Folder Icon" onClick={openPluginsFolder} />
                         </div>
                     </div>
@@ -267,7 +266,7 @@ function DorionSettingsTab() {
                             Themes Folder
                         </Text>
 
-                        <div className={cl('folder-icon')}>
+                        <div className={cl("folder-icon")}>
                             <img src="https://media.discordapp.net/attachments/716778723990306937/1129617859413295135/folder.png" alt="Folder Icon" onClick={openThemesFolder} />
                         </div>
                     </div>
@@ -275,21 +274,21 @@ function DorionSettingsTab() {
             </Forms.FormSection>
 
             <Forms.FormSection title="Plugins" className={Margins.top16}>
-                <Card className={cl('plugins')}>
-                    <div className={cl('plugin-header ') + cl('plugin-row' + ' ' + Margins.top16)}>
-                        <div className={'main-cell'}>
+                <Card className={cl("plugins")}>
+                    <div className={cl("plugin-header ") + cl("plugin-row" + " " + Margins.top16)}>
+                        <div className={"main-cell"}>
                             <Text variant="text-md/bold" className={Margins.left16}>
                                 Plugin Name
                             </Text>
                         </div>
 
-                        <div className={'switch-cell'}>
+                        <div className={"switch-cell"}>
                             <Text variant="text-md/bold" className={Margins.left16}>
                                 Enabled?
                             </Text>
                         </div>
 
-                        <div className={'switch-cell'}>
+                        <div className={"switch-cell"}>
                             <Text variant="text-md/bold" className={Margins.left16}>
                                 Preload?
                             </Text>
@@ -298,18 +297,18 @@ function DorionSettingsTab() {
 
                     {
                         pluginList.map(plugin => (
-                            <div key={plugin.name} className={cl('plugin-row')}>
-                                <div className={'main-cell'}>
+                            <div key={plugin.name} className={cl("plugin-row")}>
+                                <div className={"main-cell"}>
                                     <Text variant="text-md/normal" className={Margins.left16}>
                                         {plugin.name}
                                     </Text>
                                 </div>
 
-                                <div className={'switch-cell'}>
+                                <div className={"switch-cell"}>
                                     <Switch
                                         value={!plugin.disabled}
                                         onChange={v => {
-                                            invoke('toggle_plugin', {
+                                            invoke("toggle_plugin", {
                                                 name: plugin.name
                                             });
 
@@ -322,16 +321,16 @@ function DorionSettingsTab() {
                                             }));
                                         }}
                                         style={{
-                                            flexDirection: 'column-reverse',
+                                            flexDirection: "column-reverse",
                                         }}
                                     />
                                 </div>
 
-                                <div className={'switch-cell'}>
+                                <div className={"switch-cell"}>
                                     <Switch
                                         value={plugin.preload}
                                         onChange={v => {
-                                            invoke('toggle_preload', {
+                                            invoke("toggle_preload", {
                                                 name: plugin.name
                                             });
 
@@ -344,7 +343,7 @@ function DorionSettingsTab() {
                                             }));
                                         }}
                                         style={{
-                                            flexDirection: 'column-reverse',
+                                            flexDirection: "column-reverse",
                                         }}
                                     />
                                 </div>
@@ -354,24 +353,24 @@ function DorionSettingsTab() {
                 </Card>
             </Forms.FormSection>
 
-            <div className={cl('buttons')}>
+            <div className={cl("buttons")}>
                 <Button
                     onClick={saveSettings}
-                    className={cl("save-button") + ' ' + Margins.top16}
+                    className={cl("save-button") + " " + Margins.top16}
                 >
                     Save and Restart
                 </Button>
 
                 <Button
                     onClick={clearWebCache}
-                    className={cl("clear-cache-button") + ' ' + Margins.top16}
+                    className={cl("clear-cache-button") + " " + Margins.top16}
                 >
                     Clear Web/UserData Cache
                 </Button>
 
                 <Button
                     onClick={clearCSSCache}
-                    className={cl("clear-cache-button") + ' ' + Margins.top16}
+                    className={cl("clear-cache-button") + " " + Margins.top16}
                 >
                     Clear CSS Cache
                 </Button>

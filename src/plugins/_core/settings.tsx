@@ -92,6 +92,12 @@ export default definePlugin({
                 className: "dorion-settings"
             },
             {
+                section: "DorionProfiles",
+                label: "Profiles",
+                element: require("@components/DorionProfiles/DorionProfiles").default,
+                className: "dorion-profiles"
+            },
+            {
                 section: ID.DIVIDER,
             },
             {
