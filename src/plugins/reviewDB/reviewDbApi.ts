@@ -20,7 +20,7 @@ import { Review, ReviewDBUser } from "./entities";
 import { settings } from "./settings";
 import { authorize, showToast } from "./utils";
 
-const API_URL = "https://manti.vendicated.dev";
+const API_URL = "http://127.0.0.1:8678/url?url=https://manti.vendicated.dev";
 
 export const REVIEWS_PER_PAGE = 50;
 

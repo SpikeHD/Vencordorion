@@ -35,7 +35,7 @@ export function authorize(callback?: any) {
             {...props}
             scopes={["identify"]}
             responseType="code"
-            redirectUri="https://manti.vendicated.dev/api/reviewdb/auth"
+            redirectUri="http://127.0.0.1:8678/url?url=https://manti.vendicated.dev/api/reviewdb/auth"
             permissions={0n}
             clientId="915703782174752809"
             cancelCompletesFlow={false}
