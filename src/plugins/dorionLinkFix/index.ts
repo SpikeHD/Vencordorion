@@ -61,6 +61,16 @@ export default definePlugin({
                     replace: ";$1.isTrustedDomain=$2;window.isTrustedDomain=$2;"
                 }
             ]
+        },
+        {
+            // Component buttons
+            find: "().component",
+            replacement: [
+                {
+                    match: /;(.{1,2})=.{1,2}\?function\(\){.+?};/,
+                    replace: ";$1=function(){ window.open(e.url) };"
+                }
+            ]
         }
     ],
 
