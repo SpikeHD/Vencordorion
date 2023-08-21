@@ -54,7 +54,7 @@ export let EmojiStore: t.EmojiStore;
 export let WindowStore: t.WindowStore;
 
 export const MaskedLinkStore = mapMangledModuleLazy('"MaskedLinkStore"', {
-    openUntrustedLink: filters.byCode(".apply(this,arguments)")
+    openUntrustedLink: filters.byCode(".apply(this,arguments)"),
 });
 
 /**
