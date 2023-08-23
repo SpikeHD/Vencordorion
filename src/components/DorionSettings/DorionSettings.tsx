@@ -36,6 +36,7 @@ interface Settings {
     cache_css: boolean,
     use_native_titlebar: boolean,
     start_maximized: boolean,
+    streamer_mode_detection: boolean,
 }
 
 interface Theme {
@@ -63,6 +64,7 @@ function DorionSettingsTab() {
         cache_css: false,
         use_native_titlebar: false,
         start_maximized: false,
+        streamer_mode_detection: false,
     });
     const [themeList, setThemeList] = useState<Theme[]>([]);
     const [pluginList, setPluginList] = useState<Plugin[]>([]);
@@ -205,6 +207,18 @@ function DorionSettingsTab() {
                     onMarkerRender={v => v + "%"}
                     stickToMarkers={true}
                 />
+            </Forms.FormSection>
+
+            <Forms.FormSection title="Performance" className={Margins.top16}>
+                <Switch
+                    value={state.streamer_mode_detection}
+                    onChange={v => setState({
+                        ...state,
+                        streamer_mode_detection: v,
+                    })}
+                >
+                    Enable Streamer Mode Detection
+                </Switch>
             </Forms.FormSection>
 
             <Forms.FormSection title="Misc." className={Margins.top16}>
