@@ -92,6 +92,12 @@ export default definePlugin({
                 className: "dorion-settings"
             },
             {
+                section: "DorionPerformance",
+                label: "Performance & Extras",
+                element: require("@components/DorionPerformance/DorionPerformance").default,
+                className: "dorion-performance"
+            },
+            {
                 section: "DorionProfiles",
                 label: "Profiles",
                 element: require("@components/DorionProfiles/DorionProfiles").default,

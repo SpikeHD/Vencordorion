@@ -33,10 +33,8 @@ interface Settings {
     push_to_talk: boolean,
     push_to_talk_keys: string[],
     theme: string,
-    cache_css: boolean,
     use_native_titlebar: boolean,
     start_maximized: boolean,
-    streamer_mode_detection: boolean,
 }
 
 interface Theme {
@@ -61,10 +59,8 @@ function DorionSettingsTab() {
         push_to_talk: false,
         push_to_talk_keys: [],
         theme: "none",
-        cache_css: false,
         use_native_titlebar: false,
         start_maximized: false,
-        streamer_mode_detection: false,
     });
     const [themeList, setThemeList] = useState<Theme[]>([]);
     const [pluginList, setPluginList] = useState<Plugin[]>([]);
@@ -118,21 +114,6 @@ function DorionSettingsTab() {
         process.relaunch();
     };
 
-    const clearCSSCache = async () => {
-        await invoke("clear_css_cache");
-
-        alert("CSS cache cleared!");
-    };
-
-    const clearWebCache = async () => {
-        const doClear = await dialog.confirm(
-            "Are you sure you want to clear the web cache? This will log you out and close Dorion.",
-            "Clear Web Cache",
-        );
-
-        if (doClear) await invoke("set_clear_cache");
-    };
-
     return (
         <SettingsTab title="Dorion Settings">
             <Forms.FormSection title="Theme" className={Margins.top16}>
@@ -148,18 +129,6 @@ function DorionSettingsTab() {
                     isSelected={v => v === state.theme}
                     serialize={v => String(v)}
                 />
-            </Forms.FormSection>
-
-            <Forms.FormSection title="Cache CSS" className={Margins.top16}>
-                <Switch
-                    value={state.cache_css}
-                    onChange={v => setState({
-                        ...state,
-                        cache_css: v,
-                    })}
-                >
-                    Cache CSS
-                </Switch>
             </Forms.FormSection>
 
             <Forms.FormSection title="Client Type" className={Margins.top16}>
@@ -190,8 +159,9 @@ function DorionSettingsTab() {
                 />
             </Forms.FormSection>
 
-            <Forms.FormSection title="Zoom Level" className={Margins.top16}>
+            <Forms.FormSection title="Window" className={Margins.top16 + " " + Margins.bottom16}>
                 <Slider
+                    className={Margins.top16 + " " + Margins.bottom16}
                     markers={
                         // Create an array with number from 50-125 with a step of 5
                         Array.from(Array(16).keys()).map(i => i * 5 + 50)
@@ -207,31 +177,31 @@ function DorionSettingsTab() {
                     onMarkerRender={v => v + "%"}
                     stickToMarkers={true}
                 />
-            </Forms.FormSection>
 
-            <Forms.FormSection title="Performance" className={Margins.top16}>
-                <Switch
-                    value={state.streamer_mode_detection}
-                    onChange={v => setState({
-                        ...state,
-                        streamer_mode_detection: v,
-                    })}
-                >
-                    Enable Streamer Mode Detection
-                </Switch>
-            </Forms.FormSection>
-
-            <Forms.FormSection title="Misc." className={Margins.top16}>
                 <Switch
                     value={state.sys_tray}
                     onChange={v => setState({
                         ...state,
                         sys_tray: v,
                     })}
+                    note="Instead of closing, Dorion will run in the background and will be accessible via the system tray."
                 >
                     Minimize to System Tray
                 </Switch>
 
+
+                <Switch
+                    value={state.start_maximized}
+                    onChange={v => setState({
+                        ...state,
+                        start_maximized: v,
+                    })}
+                >
+                    Start Maximized
+                </Switch>
+            </Forms.FormSection>
+
+            <Forms.FormSection title="Misc." className={Margins.top16}>
                 <Switch
                     value={state.block_telemetry}
                     onChange={v => setState({
@@ -248,18 +218,9 @@ function DorionSettingsTab() {
                         ...state,
                         use_native_titlebar: v,
                     })}
+                    note="Disable the custom titlebar and use your systems native one instead."
                 >
                     Use Native Titlebar
-                </Switch>
-
-                <Switch
-                    value={state.start_maximized}
-                    onChange={v => setState({
-                        ...state,
-                        start_maximized: v,
-                    })}
-                >
-                    Start Maximized
                 </Switch>
             </Forms.FormSection>
 
@@ -270,8 +231,8 @@ function DorionSettingsTab() {
                             Plugins Folder
                         </Text>
 
-                        <div className={cl("folder-icon")}>
-                            <img src="https://media.discordapp.net/attachments/716778723990306937/1129617859413295135/folder.png" alt="Folder Icon" onClick={openPluginsFolder} />
+                        <div className={cl("folder-icon")} onClick={openPluginsFolder}>
+                            <svg aria-hidden="true" role="img" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M20 7H12L10.553 5.106C10.214 4.428 9.521 4 8.764 4H3C2.447 4 2 4.447 2 5V19C2 20.104 2.895 21 4 21H20C21.104 21 22 20.104 22 19V9C22 7.896 21.104 7 20 7Z"></path></svg>
                         </div>
                     </div>
 
@@ -280,8 +241,8 @@ function DorionSettingsTab() {
                             Themes Folder
                         </Text>
 
-                        <div className={cl("folder-icon")}>
-                            <img src="https://media.discordapp.net/attachments/716778723990306937/1129617859413295135/folder.png" alt="Folder Icon" onClick={openThemesFolder} />
+                        <div className={cl("folder-icon")} onClick={openThemesFolder}>
+                            <svg aria-hidden="true" role="img" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M20 7H12L10.553 5.106C10.214 4.428 9.521 4 8.764 4H3C2.447 4 2 4.447 2 5V19C2 20.104 2.895 21 4 21H20C21.104 21 22 20.104 22 19V9C22 7.896 21.104 7 20 7Z"></path></svg>
                         </div>
                     </div>
                 </Card>
@@ -367,28 +328,12 @@ function DorionSettingsTab() {
                 </Card>
             </Forms.FormSection>
 
-            <div className={cl("buttons")}>
-                <Button
-                    onClick={saveSettings}
-                    className={cl("save-button") + " " + Margins.top16}
-                >
-                    Save and Restart
-                </Button>
-
-                <Button
-                    onClick={clearWebCache}
-                    className={cl("clear-cache-button") + " " + Margins.top16}
-                >
-                    Clear Web/UserData Cache
-                </Button>
-
-                <Button
-                    onClick={clearCSSCache}
-                    className={cl("clear-cache-button") + " " + Margins.top16}
-                >
-                    Clear CSS Cache
-                </Button>
-            </div>
+            <Button
+                onClick={saveSettings}
+                className={cl("save-button") + " " + Margins.top16}
+            >
+                Save and Restart
+            </Button>
         </SettingsTab >
     );
 }
