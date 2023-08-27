@@ -95,7 +95,7 @@ export default definePlugin({
                     } catch (e) { }
                 }
 
-                return window.isTrustedDomain(url);
+                return window.isTrustedDomain ? window.isTrustedDomain(url) : true;
             };
         }
 
