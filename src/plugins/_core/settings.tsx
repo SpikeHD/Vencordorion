@@ -207,6 +207,7 @@ export default definePlugin({
                 <Component {...props}>Vencord {gitHash}{additionalInfo}</Component>
                 {electronVersion && <Component {...props}>Electron {electronVersion}</Component>}
                 {chromiumVersion && <Component {...props}>Chromium {chromiumVersion}</Component>}
+                {window.dorionVersion && <Component {...props}>Dorion v{window.dorionVersion}</Component>}
             </>
         );
     }

@@ -23,6 +23,7 @@ export default definePlugin({
     name: "AlwaysTrust",
     description: "Removes the annoying untrusted domain and suspicious file popup",
     authors: [Devs.zt],
+    enabledByDefault: true,
     patches: [
         {
             find: ".displayName=\"MaskedLinkStore\"",
