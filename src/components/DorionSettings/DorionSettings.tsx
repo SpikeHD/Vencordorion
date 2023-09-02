@@ -53,7 +53,7 @@ const cl = (className: string) => classes("dorion-" + className);
 function DorionSettingsTab() {
     const [state, setState] = useState<Settings>({
         zoom: "1.0",
-        client_type: "stable",
+        client_type: "default",
         sys_tray: false,
         block_telemetry: false,
         push_to_talk: false,

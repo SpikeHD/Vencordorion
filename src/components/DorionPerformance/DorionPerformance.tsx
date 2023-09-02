@@ -39,8 +39,13 @@ function DorionSettingsTab() {
     useEffect(() => {
         (async () => {
             const settings = await invoke("read_config_file");
+            const defaultConf = await invoke("default_config");
 
-            setState(JSON.parse(settings));
+            try {
+                setState(JSON.parse(settings));
+            } catch (e) {
+                setState(JSON.parse(defaultConf));
+            }
         })();
     }, []);
 
