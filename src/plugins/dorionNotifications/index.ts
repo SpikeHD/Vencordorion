@@ -6,7 +6,6 @@
 
 import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
-// import { FluxDispatcher } from "@webpack/common";
 
 export default definePlugin({
     name: "Dorion Notifications",
