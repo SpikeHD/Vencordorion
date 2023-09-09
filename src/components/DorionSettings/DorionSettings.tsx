@@ -169,10 +169,17 @@ function DorionSettingsTab() {
                     minValue={50}
                     maxValue={125}
                     initialValue={(typeof state.zoom === "string" ? parseFloat(state.zoom) : state.zoom) * 100}
-                    onValueChange={v => setState({
-                        ...state,
-                        zoom: "" + (v / 100),
-                    })}
+                    onValueChange={v => {
+                        setState({
+                            ...state,
+                            zoom: "" + (v / 100),
+                        });
+
+                        // Also change the zoom level LIVE (wow!)
+                        invoke("change_zoom", {
+                            zoom: v / 100,
+                        });
+                    }}
                     onValueRender={v => v + "%"}
                     onMarkerRender={v => v + "%"}
                     stickToMarkers={true}
