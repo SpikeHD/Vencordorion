@@ -79,6 +79,19 @@ async function syncSettings() {
 
 async function init() {
     await onceReady;
+
+    // If we should disable plugins, disable before starting
+    const disablePlugins = await window.__TAURI__.invoke("should_disable_plugins");
+
+    if (disablePlugins) {
+        const settings = Vencord.Settings;
+
+        for (const plugin of Object.keys(settings.plugins)) {
+            if (Vencord.Plugins.plugins[plugin]?.required) continue;
+            settings.plugins[plugin].enabled = false;
+        }
+    }
+
     startAllPlugins();
 
     syncSettings();
