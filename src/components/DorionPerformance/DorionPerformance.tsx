@@ -26,6 +26,7 @@ const { invoke, process, dialog } = window.__TAURI__;
 interface Settings {
     cache_css: boolean,
     streamer_mode_detection: boolean,
+    rpc_server: boolean,
 }
 
 const cl = (className: string) => classes("dorion-" + className);
@@ -34,6 +35,7 @@ function DorionSettingsTab() {
     const [state, setState] = useState<Settings>({
         cache_css: false,
         streamer_mode_detection: false,
+        rpc_server: false,
     });
 
     useEffect(() => {
@@ -100,10 +102,11 @@ function DorionSettingsTab() {
 
                 {/* Adding this now so I don't have to do it later */}
                 <Switch
-                    onChange={() => { }}
-                    value={false}
-                    disabled={true}
-                    tooltipNote="This feature is still in progress!"
+                    value={state.rpc_server}
+                    onChange={v => setState({
+                        ...state,
+                        rpc_server: v,
+                    })}
                     note="Enable the integrated RPC server, eliminating the need for a separate arRPC server running. Remember to enable the arRPC plugin!"
                 >
                     Enable integrated rich presence server
