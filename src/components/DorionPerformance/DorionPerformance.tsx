@@ -107,6 +107,7 @@ function DorionSettingsTab() {
                         ...state,
                         rpc_server: v,
                     })}
+                    tooltipNote="This is a work in progress, and won't do EVERYTHING arRPC does quite yet."
                     note="Enable the integrated RPC server, eliminating the need for a separate arRPC server running. Remember to enable the arRPC plugin!"
                 >
                     Enable integrated rich presence server
