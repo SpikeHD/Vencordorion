@@ -29,7 +29,7 @@ export default definePlugin({
     name: "Dorion Link Fix",
     description: "Fixes weird link behavior in Dorion.",
     authors: [Devs.SpikeHD],
-    required: true,
+    required: false,
 
     patches: [
         {
@@ -67,8 +67,8 @@ export default definePlugin({
             find: "().component",
             replacement: [
                 {
-                    match: /;(.{1,2})=.{1,2}\?function\(\){.+?};/,
-                    replace: ";$1=function(){ window.open(e.url) };"
+                    match: /;(.{1,2})=(.{1,2})\?function\(\){.+?}:(function\(\)\{.+?\});/,
+                    replace: ";$1=$2 ? function(){ window.open(e.url) } : $3;"
                 }
             ]
         }
