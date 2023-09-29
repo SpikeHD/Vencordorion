@@ -83,4 +83,4 @@ export const shikiWorkerSrc = `127.0.0.1:8768/url?url=https://unpkg.com/@vap/shi
 export const shikiOnigasmSrc = "127.0.0.1:8768/url?url=https://unpkg.com/@vap/shiki@0.10.3/dist/onig.wasm";
 
 // @ts-expect-error
-export const getStegCloak = /* #__PURE__*/ makeLazy(() => import("127.0.0.1:8768/url?url=https://unpkg.com/stegcloak-dist@1.0.0/index.js"));
+export const getStegCloak = /* #__PURE__*/ makeLazy(() => import("https://unpkg.com/stegcloak-dist@1.0.0/index.js"));
