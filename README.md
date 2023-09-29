@@ -9,9 +9,9 @@ The cutest Discord client mod, now reworked for [Dorion](https://github.com/Spik
 -   Does everything Vencord does
 -   Makes Dorion better
 
-## Installing / Uninstalling
+## Installing
 
-Install Dorion [here](https://github.com/SpikeHD/Dorion/releases)!
+Install Dorion [here](https://github.com/SpikeHD/Dorion/releases/latest)!
 
 <details>
 
