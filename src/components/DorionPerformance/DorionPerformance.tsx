@@ -19,7 +19,7 @@
 import { SettingsTab, wrapTab } from "@components/VencordSettings/shared";
 import { Margins } from "@utils/margins";
 import { classes } from "@utils/misc";
-import { Button, Forms, React, Switch, useEffect, useState } from "@webpack/common";
+import { Button, Forms, React, showToast, Switch, useEffect, useState } from "@webpack/common";
 
 const { invoke, process, dialog } = window.__TAURI__;
 
@@ -61,8 +61,7 @@ function DorionSettingsTab() {
 
     const clearCSSCache = async () => {
         await invoke("clear_css_cache");
-
-        alert("CSS cache cleared!");
+        showToast("Cleared CSS cache");
     };
 
     const clearWebCache = async () => {
