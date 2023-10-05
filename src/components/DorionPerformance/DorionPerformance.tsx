@@ -83,6 +83,7 @@ function DorionSettingsTab() {
                         ...state,
                         cache_css: v,
                     })}
+                    note="Save CSS to disk that would otherwise be loaded from the web, decreasing load times."
                 >
                     Cache CSS
                 </Switch>
@@ -97,7 +98,7 @@ function DorionSettingsTab() {
                     })}
                     note="Detect OBS and Streamlabs OBS and automatically enable streamer mode when they are running."
                 >
-                    Enable Streamer Mode detection
+                    Streamer Mode detection
                 </Switch>
 
                 {/* Adding this now so I don't have to do it later */}
@@ -110,7 +111,7 @@ function DorionSettingsTab() {
                     tooltipNote="This is a work in progress, and won't do EVERYTHING arRPC does quite yet."
                     note="Enable the integrated RPC server, eliminating the need for a separate arRPC server running. Remember to enable the arRPC plugin!"
                 >
-                    Enable integrated rich presence server
+                    Integrated rich presence server
                 </Switch>
             </Forms.FormSection>
 
