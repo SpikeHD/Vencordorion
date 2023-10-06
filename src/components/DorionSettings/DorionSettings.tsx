@@ -26,28 +26,29 @@ import { Button, Card, Forms, React, Select, Slider, Switch, Text, useEffect, us
 const { invoke, process } = window.__TAURI__;
 
 interface Settings {
-  zoom: number | string,
-  client_type: string,
-  sys_tray: boolean,
-  block_telemetry: boolean,
-  push_to_talk: boolean,
-  push_to_talk_keys: string[],
-  theme: string,
-  use_native_titlebar: boolean,
-  start_maximized: boolean,
-  open_on_startup: boolean,
-  startup_minimized: boolean,
+    zoom: number | string,
+    client_type: string,
+    sys_tray: boolean,
+    block_telemetry: boolean,
+    push_to_talk: boolean,
+    push_to_talk_keys: string[],
+    theme: string,
+    use_native_titlebar: boolean,
+    start_maximized: boolean,
+    open_on_startup: boolean,
+    startup_minimized: boolean,
+    autoupdate: boolean,
 }
 
 interface Theme {
-  label: string,
-  value: string,
+    label: string,
+    value: string,
 }
 
 interface Plugin {
-  name: string,
-  preload: boolean,
-  disabled: boolean,
+    name: string,
+    preload: boolean,
+    disabled: boolean,
 }
 
 const cl = (className: string) => classes("dorion-" + className);
@@ -65,6 +66,7 @@ function DorionSettingsTab() {
         start_maximized: false,
         open_on_startup: false,
         startup_minimized: false,
+        autoupdate: false,
     });
     const [themeList, setThemeList] = useState<Theme[]>([]);
     const [pluginList, setPluginList] = useState<Plugin[]>([]);
@@ -197,7 +199,7 @@ function DorionSettingsTab() {
                     })}
                     note="Instead of closing, Dorion will run in the background and will be accessible via the system tray."
                 >
-          Minimize to System Tray
+                    Minimize to System Tray
                 </Switch>
 
                 <Switch
@@ -207,7 +209,7 @@ function DorionSettingsTab() {
                         start_maximized: v,
                     })}
                 >
-          Start Maximized
+                    Start Maximized
                 </Switch>
             </Forms.FormSection>
 
@@ -220,7 +222,7 @@ function DorionSettingsTab() {
                     })}
                     note="Open Dorion when your system starts."
                 >
-          Open on Startup
+                    Open on Startup
                 </Switch>
 
                 <Switch
@@ -232,7 +234,7 @@ function DorionSettingsTab() {
                     })}
                     note="Open in the background when your system starts."
                 >
-          Start Minimized
+                    Start Minimized
                 </Switch>
             </Forms.FormSection>
 
@@ -244,7 +246,7 @@ function DorionSettingsTab() {
                         block_telemetry: v,
                     })}
                 >
-          Block Discord Telemetry
+                    Block Discord Telemetry
                 </Switch>
 
                 <Switch
@@ -255,7 +257,18 @@ function DorionSettingsTab() {
                     })}
                     note="Disable the custom titlebar and use your systems native one instead."
                 >
-          Use Native Titlebar
+                    Use Native Titlebar
+                </Switch>
+
+                <Switch
+                    value={state.autoupdate}
+                    onChange={v => setState({
+                        ...state,
+                        autoupdate: v,
+                    })}
+                    note="Automatically update various Dorion components, such as Vencordorion."
+                >
+                    Autoupdate
                 </Switch>
             </Forms.FormSection>
 
@@ -263,7 +276,7 @@ function DorionSettingsTab() {
                 <Card className={cl("folders")}>
                     <div>
                         <Text variant="text-md/normal" className={Margins.left16}>
-              Plugins Folder
+                            Plugins Folder
                         </Text>
 
                         <div className={cl("folder-icon")} onClick={openPluginsFolder}>
@@ -273,7 +286,7 @@ function DorionSettingsTab() {
 
                     <div>
                         <Text variant="text-md/normal" className={Margins.left16}>
-              Themes Folder
+                            Themes Folder
                         </Text>
 
                         <div className={cl("folder-icon")} onClick={openThemesFolder}>
@@ -288,19 +301,19 @@ function DorionSettingsTab() {
                     <div className={cl("plugin-header ") + cl("plugin-row" + " " + Margins.top16)}>
                         <div className={"main-cell"}>
                             <Text variant="text-md/bold" className={Margins.left16}>
-                Plugin Name
+                                Plugin Name
                             </Text>
                         </div>
 
                         <div className={"switch-cell"}>
                             <Text variant="text-md/bold" className={Margins.left16}>
-                Enabled?
+                                Enabled?
                             </Text>
                         </div>
 
                         <div className={"switch-cell"}>
                             <Text variant="text-md/bold" className={Margins.left16}>
-                Preload?
+                                Preload?
                             </Text>
                         </div>
                     </div>
@@ -367,7 +380,7 @@ function DorionSettingsTab() {
                 onClick={saveSettings}
                 className={cl("save-button") + " " + Margins.top16}
             >
-        Save and Restart
+                Save and Restart
             </Button>
         </SettingsTab >
     );
