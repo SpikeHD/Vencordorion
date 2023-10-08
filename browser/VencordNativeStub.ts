@@ -54,7 +54,7 @@ window.VencordNative = {
 
     native: {
         getVersions: () => ({}),
-        openExternal: async (url) => void open(url, "_blank")
+        openExternal: async (url) => void open(url)
     },
 
     updater: {
