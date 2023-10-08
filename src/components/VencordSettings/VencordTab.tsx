@@ -110,14 +110,14 @@ function VencordSettings() {
                                 Restart Client
                             </Button>
                         )}
-                        {!IsFirefox && (
-                            <Button
-                                onClick={() => VencordNative.quickCss.openEditor()}
-                                size={Button.Sizes.SMALL}
-                                disabled={settingsDir === "Loading..."}>
-                                Open QuickCSS File
-                            </Button>
-                        )}
+                        // {!IsFirefox && (
+                        //     <Button
+                        //         onClick={() => VencordNative.quickCss.openEditor()}
+                        //         size={Button.Sizes.SMALL}
+                        //         disabled={settingsDir === "Loading..."}>
+                        //         Open QuickCSS File
+                        //     </Button>
+                        // )}
                         {!IS_WEB && (
                             <Button
                                 onClick={() => showItemInFolder(settingsDir)}
