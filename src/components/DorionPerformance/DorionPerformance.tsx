@@ -19,7 +19,7 @@
 import { SettingsTab, wrapTab } from "@components/VencordSettings/shared";
 import { Margins } from "@utils/margins";
 import { classes } from "@utils/misc";
-import { Button, Forms, React, showToast, Switch, useEffect, useState } from "@webpack/common";
+import { Alerts, Button, Forms, React, showToast, Switch, useEffect, useState } from "@webpack/common";
 
 const { invoke, process, dialog } = window.__TAURI__;
 
@@ -65,12 +65,18 @@ function DorionSettingsTab() {
     };
 
     const clearWebCache = async () => {
-        const doClear = await dialog.confirm(
-            "Are you sure you want to clear the web cache? This will log you out and close Dorion.",
-            "Clear Web Cache",
-        );
-
-        if (doClear) await invoke("set_clear_cache");
+        Alerts.show({
+            title: "Are you sure?",
+            body: (
+                <>
+                    <p>Clearing web cache will log you out and reset your Vencord settings (unless they are on the cloud, of course), but can often help solve permission-based issues.</p>
+                    <p>Do you want to proceed?</p>
+                </>
+            ),
+            confirmText: "Confirm",
+            cancelText: "Cancel",
+            onConfirm: () => invoke("set_clear_cache")
+        });
     };
 
     return (
