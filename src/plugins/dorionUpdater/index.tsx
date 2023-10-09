@@ -46,5 +46,19 @@ export default definePlugin({
                 onConfirm: () => doUpdate()
             });
         }
+
+        // Listen for update_complete eevent
+        window.__TAURI__.event.listen("update_complete", () => {
+            Alerts.show({
+                title: "Update Complete!",
+                body: (
+                    <>
+                        <p>The update has been applied! Please restart to apply the changes.</p>
+                    </>
+                ),
+                confirmText: "Okay!",
+                onConfirm: () => window.__TAURI__.process.relaunch()
+            });
+        });
     }
 });
