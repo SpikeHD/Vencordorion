@@ -25,7 +25,7 @@ import { UserStore } from "@webpack/common";
 import { Logger } from "./Logger";
 import { openModal } from "./modal";
 
-const PROXY_URL = "http://127.0.0.1:8678/url?url=";
+const PROXY_URL = "";
 
 export const cloudLogger = new Logger("Cloud", "#39b7e0");
 export const getCloudUrl = () => new URL(PROXY_URL + Settings.cloud.url);

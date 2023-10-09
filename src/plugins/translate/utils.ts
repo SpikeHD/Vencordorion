@@ -39,7 +39,7 @@ export async function translate(kind: "received" | "sent", text: string): Promis
     const sourceLang = settings.store[kind + "Input"];
     const targetLang = settings.store[kind + "Output"];
 
-    const url = "http://127.0.0.1:8678/url?url=https://translate.googleapis.com/translate_a/single?" + new URLSearchParams({
+    const url = "https://translate.googleapis.com/translate_a/single?" + new URLSearchParams({
         // see https://stackoverflow.com/a/29537590 for more params
         // holy shidd nvidia
         client: "gtx",
