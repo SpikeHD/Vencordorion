@@ -256,7 +256,11 @@ function DorionSettingsTab() {
                         ...state,
                         autoupdate: v,
                     })}
-                    note="Automatically update various Dorion components, such as Vencordorion."
+                    note={(
+                        <>
+                            Automatically update various Dorion components, such as <a href="https://github.com/SpikeHD/Vencordorion" target="_blank">Vencordorion</a>.
+                        </>
+                    )}
                 >
                     Autoupdate
                 </Switch>
