@@ -15,6 +15,7 @@ export default definePlugin({
     required: true,
 
     start: async () => {
+        const config = JSON.parse(await window.__TAURI__.invoke("read_config_file"));
         // This returns an array of what to update, if anything.
         const update_check = await window.__TAURI__.invoke("update_check");
         const { autoupdate } = JSON.parse(await window.__TAURI__.invoke("read_config_file"));
@@ -26,6 +27,8 @@ export default definePlugin({
         };
 
         console.log(`Dorion things to update: ${update_check}`);
+
+        if (config.update_notify !== undefined && !config.update_notify) return;
 
         if (update_check.includes("vencordorion") || update_check.includes("dorion")) {
             // If autoupdate is enabled, just do it, otherwise ask the user.
@@ -39,6 +42,7 @@ export default definePlugin({
                 body: (
                     <>
                         <p>There are Dorion-related updates available. Would you like to apply them?</p>
+                        <p>This notification can be disabled in Dorion Settings</p>
                     </>
                 ),
                 confirmText: "Yes please!",
