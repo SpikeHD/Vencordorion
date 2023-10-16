@@ -71,7 +71,7 @@ export interface ApngFrameData {
 // On desktop (electron), load from cdn
 export const rnnoiseDist = IS_EXTENSION
     ? new URL("/third-party/rnnoise", EXTENSION_BASE_URL).toString()
-    : "127.0.0.1:8768/url?url=https://unpkg.com/@sapphi-red/web-noise-suppressor@0.3.3/dist";
+    : "https://unpkg.com/@sapphi-red/web-noise-suppressor@0.3.3/dist";
 export const rnnoiseWasmSrc = (simd = false) => `${rnnoiseDist}/rnnoise${simd ? "_simd" : ""}.wasm`;
 export const rnnoiseWorkletSrc = `${rnnoiseDist}/rnnoise/workletProcessor.js`;
 
@@ -79,8 +79,8 @@ export const rnnoiseWorkletSrc = `${rnnoiseDist}/rnnoise/workletProcessor.js`;
 // The below code is only used on the Desktop (electron) build of Vencord.
 // Browser (extension) builds do not contain these remote imports.
 
-export const shikiWorkerSrc = `127.0.0.1:8768/url?url=https://unpkg.com/@vap/shiki-worker@0.0.8/dist/${IS_DEV ? "index.js" : "index.min.js"}`;
-export const shikiOnigasmSrc = "127.0.0.1:8768/url?url=https://unpkg.com/@vap/shiki@0.10.3/dist/onig.wasm";
+export const shikiWorkerSrc = `https://unpkg.com/@vap/shiki-worker@0.0.8/dist/${IS_DEV ? "index.js" : "index.min.js"}`;
+export const shikiOnigasmSrc = "https://unpkg.com/@vap/shiki@0.10.3/dist/onig.wasm";
 
 // @ts-expect-error
 export const getStegCloak = /* #__PURE__*/ makeLazy(() => import("https://unpkg.com/stegcloak-dist@1.0.0/index.js"));
