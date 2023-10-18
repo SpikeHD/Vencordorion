@@ -17,22 +17,37 @@ export default definePlugin({
     start: async () => {
         const config = JSON.parse(await window.__TAURI__.invoke("read_config_file"));
         // This returns an array of what to update, if anything.
-        const update_check = await window.__TAURI__.invoke("update_check");
+        const updateCheck = await window.__TAURI__.invoke("update_check");
         const { autoupdate } = JSON.parse(await window.__TAURI__.invoke("read_config_file"));
 
         const doUpdate = () => {
             window.__TAURI__.invoke("do_update", {
-                toUpdate: update_check,
+                toUpdate: updateCheck,
             });
         };
 
-        console.log(`Dorion things to update: ${update_check}`);
+        console.log(`Dorion things to update: ${updateCheck}`);
 
         if (config.update_notify !== undefined && !config.update_notify) return;
 
-        if (update_check.includes("vencordorion") || update_check.includes("dorion")) {
+        if (updateCheck.includes("vencordorion") || updateCheck.includes("dorion")) {
             // If autoupdate is enabled, just do it, otherwise ask the user.
             if (autoupdate) {
+                // We should still warn that Dorion is going to restart
+                if (updateCheck.includes("dorion")) {
+                    Alerts.show({
+                        title: "Dorion Update",
+                        body: (
+                            <>
+                                <p>A Dorion update has been fetched, and Dorion will restart momentarily.</p>
+                            </>
+                        ),
+                        confirmText: "Got it!",
+                        onConfirm: () => doUpdate()
+                    });
+                    return;
+                }
+
                 doUpdate();
                 return;
             }
@@ -41,7 +56,7 @@ export default definePlugin({
                 title: "Updates Available!",
                 body: (
                     <>
-                        <p>There are Dorion-related updates available. Would you like to apply them?</p>
+                        <p>There are Dorion updates available. Would you like to apply them?</p>
                         <p>This notification can be disabled in Dorion Settings</p>
                     </>
                 ),
