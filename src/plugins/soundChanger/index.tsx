@@ -25,7 +25,6 @@ import { useForceUpdater } from "@utils/react";
 import definePlugin, { OptionType } from "@utils/types";
 import { Forms, Text, TextInput } from "@webpack/common";
 
-
 interface SoundReplacement {
     name: string;
     link: string;
@@ -35,10 +34,10 @@ let soundReplacements: SoundReplacement[] = [];
 let availableSounds: string[] = [];
 
 const settings = definePluginSettings({
-    // Detune sounds are alternative, weird sounding versions of the default sounds. I don't know why they exist
+    // Detune sounds are alternative, weird sounding versions of the default sounds. I don't know why they exist.
     showDetuneSounds: {
         type: OptionType.BOOLEAN,
-        description: "Show unused(?) \"detune\" sounds in SoundChanger settings.",
+        description: "Show unused(?) \"detune\" sounds in SoundChanger settings. You probably don't need to turn this on.",
         default: false,
         requiresRestart: true
     },
@@ -63,14 +62,13 @@ const settings = definePluginSettings({
                                     <TextInput
                                         value={soundReplacements.find(r => r.name === sound)?.link ?? ""}
                                         placeholder="Link to a sound..."
-                                        onChange={e => {
-                                            const link = e;
-                                            const index = soundReplacements.findIndex(r => r.name === sound);
+                                        onChange={link => {
+                                            const idx = soundReplacements.findIndex(r => r.name === sound);
 
-                                            if (index === -1) {
+                                            if (idx === -1) {
                                                 soundReplacements.push({ name: sound, link });
                                             } else {
-                                                soundReplacements[index].link = link;
+                                                soundReplacements[idx].link = link;
                                             }
 
                                             DataStore.set("SoundChange_replacements", soundReplacements);
@@ -95,7 +93,8 @@ export default definePlugin({
     patches: [{
         find: "./message1.mp3",
         replacement: [
-            // This only runs once, making it a good source for dynamically retrieving all of the sounds the user can change
+            // This only runs once, making it a good source for dynamically retrieving all of the sounds the user can change.
+            // This should make it less prone to issues when new sounds are added or changed.
             {
                 match: /var (.{1,2})=(\{.+?\});/g,
                 replace: "var $1=$2;$self.registerSoundFilenames($1);",
