@@ -82,7 +82,7 @@ export default definePlugin({
     makeSettingsCategories(SectionTypes: Record<string, unknown>) {
         return [
             {
-                section: ID.HEADER,
+                section: SectionTypes.HEADER,
                 label: "Dorion",
                 className: "dorion-settings-header"
             },
