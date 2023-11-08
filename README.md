@@ -1,3 +1,7 @@
+<div align="center">
+    <h1>Dorion has moved to using something else, and this repository will no longer be updated (unless for PRs to upstream Vencord)</h1>
+</div>
+
 # Vencord
 
 The cutest Discord client mod, now reworked for [Dorion](https://github.com/SpikeHD/Dorion)!
